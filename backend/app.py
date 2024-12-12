@@ -10,7 +10,10 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 # Initialize Flask app
-app = Flask(__name__, static_folder="frontend/build")  # Point to React's build folder
+app = Flask(
+    __name__,
+    static_folder=os.path.join(os.path.dirname(__file__), "../frontend/build"),
+)
 CORS(app)  # Enables CORS for all routes
 
 @app.route('/')
