@@ -17,21 +17,20 @@ function App() {
         throw new Error(data.error || "Unable to retrieve Sentiment Score.");
       }
 
-      setResult(data); // Update result with the response data
+      setResult(data);
     } catch (err) {
       console.error("Error predicting sentiment:", err);
     }
   };
 
-  // Helper to get the emoji for the predicted sentiment
   const getSentimentEmoji = (sentiment) => {
     switch (sentiment) {
       case "positive":
-        return "😊"; // Smiley face for positive sentiment
+        return "😊";
       case "neutral":
-        return "😐"; // Neutral face for neutral sentiment
+        return "😐";
       case "negative":
-        return "😞"; // Sad face for negative sentiment
+        return "😞";
       default:
         return "";
     }
@@ -44,18 +43,13 @@ function App() {
 
   return (
     <div
-      style={{
-        textAlign: "center",
-      }}
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
     >
-      <div
-        style={{
-          textAlign: "center",
-          padding: "20px",
-          fontFamily: "Arial, sans-serif",
-        }}
-      >
-        <h1 style={{ color: "#4CAF50" }}>Sentiment Analysis</h1>
+      <div style={{ textAlign: "center", flex: 1 }}>
+        <header style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+          <h1 style={{ color: "#4CAF50" }}>Sentiment Analysis</h1>
+        </header>
+
         <textarea
           rows="5"
           cols="50"
@@ -70,57 +64,76 @@ function App() {
             width: "80%",
           }}
         />
+
         <br />
+
         <button
           onClick={handleSubmit}
           style={{
             marginTop: "10px",
             padding: "10px 20px",
-            backgroundColor: "#4CAF50",
-            color: "#fff",
+            backgroundColor: inputText ? "#4CAF50" : "#ccc",
+            color: inputText ? "#fff" : "#666",
             border: "none",
             borderRadius: "5px",
             fontSize: "16px",
-            cursor: "pointer",
+            cursor: inputText ? "pointer" : "not-allowed",
           }}
           disabled={!inputText}
         >
           Analyze Sentiment
         </button>
+
+        {result && (
+          <div
+            style={{
+              marginTop: "20px",
+              padding: "20px",
+              border: "2px solid #4CAF50",
+              borderRadius: "10px",
+              display: "inline-block",
+              textAlign: "left",
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <h2 style={{ textAlign: "center" }}>
+              Prediction Results {getSentimentEmoji(result.predicted_sentiment)}
+            </h2>
+            <p>
+              <strong>Sentiment:</strong> {result.predicted_sentiment}{" "}
+              {getSentimentEmoji(result.predicted_sentiment)}
+            </p>
+            <p>
+              <strong>Negative:</strong> {(result.negative * 100).toFixed(2)}%
+            </p>
+            <p>
+              <strong>Neutral:</strong> {(result.neutral * 100).toFixed(2)}%
+            </p>
+            <p>
+              <strong>Positive:</strong> {(result.positive * 100).toFixed(2)}%
+            </p>
+          </div>
+        )}
       </div>
-      {result && (
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "20px",
-            border: "2px solid #4CAF50",
-            borderRadius: "10px",
-            display: "inline-block",
-            textAlign: "left",
-            backgroundColor: "#f9f9f9",
-          }}
+
+      <footer
+        style={{
+          position: "absolute",
+          bottom: "10px",
+          right: "10px",
+          fontFamily: "Arial, sans-serif",
+          fontSize: "14px",
+        }}
+      >
+        <a
+          href="https://github.com/ankitrijal2054/Sentiment_Web_App"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none", color: "#4CAF50" }}
         >
-          <h2 style={{ textAlign: "center" }}>
-            Prediction Results {getSentimentEmoji(result.predicted_sentiment)}
-          </h2>
-          <p>
-            <strong>Sentiment:</strong> {result.predicted_sentiment}{" "}
-            {getSentimentEmoji(result.predicted_sentiment)}
-          </p>
-          <p>
-            <strong>Negative:</strong> {result.negative.toFixed(2) * 100}
-            {"%"}
-          </p>
-          <p>
-            <strong>Neutral:</strong> {result.neutral.toFixed(2) * 100}
-            {"%"}
-          </p>
-          <p>
-            <strong>Positive:</strong> {result.positive.toFixed(2) * 100}
-            {"%"}
-          </p>
-        </div>
-      )}
+          Created by Ankit Rijal
+        </a>
+      </footer>
     </div>
   );
 }
