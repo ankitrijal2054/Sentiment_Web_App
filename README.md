@@ -22,3 +22,14 @@ This project is a simple Sentiment Analysis Web Application built using React.js
 - **Flask-CORS**: Middleware to allow cross-origin requests.
 - **Transformers**: Hugging Face library for loading and using the RoBERTa sentiment model.
 - **scipy**: For computing softmax scores.
+
+## License
+This project is licensed under the MIT License. Feel free to use and modify it as needed.
+
+## Acknowledgments
+- Hugging Face for providing the pre-trained RoBERTa sentiment model.
+- Cardiff NLP for the Twitter-specific sentiment model.
+  
+## Creator
+Ankit Rijal
+[GitHub Profile](https://github.com/ankitrijal2054)
