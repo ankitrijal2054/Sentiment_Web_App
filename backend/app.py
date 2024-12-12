@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from scipy.special import softmax
@@ -10,12 +10,21 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder="frontend/build")  # Point to React's build folder
 CORS(app)  # Enables CORS for all routes
 
 @app.route('/')
-def home():
-    return "Backend is live!"
+def serve_index():
+    """Serve the index.html file from the React build directory."""
+    return send_from_directory(app.static_folder, "index.html")
+
+@app.route('/<path:path>')
+def serve_static(path):
+    """Serve static files like JS, CSS, images, etc., from the React build directory."""
+    file_path = os.path.join(app.static_folder, path)
+    if os.path.exists(file_path):
+        return send_from_directory(app.static_folder, path)
+    return send_from_directory(app.static_folder, "index.html")
 
 @app.route("/predict", methods=["POST"])
 def predict():
