@@ -10,24 +10,13 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 # Initialize Flask app
-app = Flask(
-    __name__,
-    static_folder=os.path.join(os.path.dirname(__file__), "../frontend/build"),
-)
+app = Flask( __name__ )
+
 CORS(app)  # Enables CORS for all routes
 
 @app.route('/')
-def serve_index():
-    """Serve the index.html file from the React build directory."""
-    return send_from_directory(app.static_folder, "index.html")
-
-@app.route('/<path:path>')
-def serve_static(path):
-    """Serve static files like JS, CSS, images, etc., from the React build directory."""
-    file_path = os.path.join(app.static_folder, path)
-    if os.path.exists(file_path):
-        return send_from_directory(app.static_folder, path)
-    return send_from_directory(app.static_folder, "index.html")
+def home():
+    return "Backend is live!"
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -57,4 +46,4 @@ def predict():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5001)))
