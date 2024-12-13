@@ -3,8 +3,10 @@ import React, { useState } from "react";
 function App() {
   const [inputText, setInputText] = useState("");
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         "https://sentiment-analysis-455b.onrender.com/predict",
@@ -23,6 +25,8 @@ function App() {
       setResult(data);
     } catch (err) {
       console.error("Error predicting sentiment:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,16 +83,16 @@ function App() {
               style={{
                 marginTop: "10px",
                 padding: "10px 20px",
-                backgroundColor: inputText ? "#4CAF50" : "#ccc",
-                color: inputText ? "#fff" : "#666",
+                backgroundColor: inputText && !loading ? "#4CAF50" : "#ccc",
+                color: inputText && !loading ? "#fff" : "#666",
                 border: "none",
                 borderRadius: "5px",
                 fontSize: "16px",
-                cursor: inputText ? "pointer" : "not-allowed",
+                cursor: inputText && !loading ? "pointer" : "not-allowed",
               }}
-              disabled={!inputText}
+              disabled={!inputText || loading}
             >
-              Analyze Sentiment
+              {loading ? "Analyzing Sentiment..." : "Analyze Sentiment"}
             </button>
           </div>
 
