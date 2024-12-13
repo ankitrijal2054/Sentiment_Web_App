@@ -6,11 +6,14 @@ function App() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://3.19.64.65:5000/predict", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: inputText }),
-      });
+      const response = await fetch(
+        "https://sentiment-analysis-455b.onrender.com",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: inputText }),
+        }
+      );
 
       const data = await response.json();
       if (!response.ok) {
