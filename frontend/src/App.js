@@ -7,7 +7,7 @@ function App() {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        "https://sentiment-analysis-455b.onrender.com",
+        "https://sentiment-analysis-455b.onrender.com/predict",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
