@@ -1,12 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { ClipLoader } from "react-spinners";
 
 function App() {
   const [inputText, setInputText] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [funnyText, setFunnyText] = useState("");
+  const funnyMessages = useMemo(
+    () => [
+      "Counting bytes...",
+      "Negotiating with servers...",
+      "Training neural networks to understand your emotions...",
+      "Turning words into math and back again...",
+      "Optimizing for humor... ",
+      "Teaching AI how to take over the world... just kidding!",
+      "Tokenizing text like a pro linguist...",
+      "Explaining sentiment to the machines... again.",
+      "Asking GPT if this is funny enough...",
+      "Cross-validating your patience level...",
+      "Searching for hidden layers of sarcasm...",
+      "Convincing AI to work...",
+      "Thinking deep thoughts...",
+      "Calculating the meaning of life...",
+      "Feeding the hamster on the wheel...",
+      "Polishing the code...",
+      "Consulting the crystal ball...",
+      "Trying to make you smile...",
+    ],
+    []
+  );
+
+  useEffect(() => {
+    let interval;
+    if (loading) {
+      let index = 1;
+      setFunnyText(funnyMessages[0]);
+      interval = setInterval(() => {
+        setFunnyText(funnyMessages[index]);
+        index = (index + 1) % funnyMessages.length;
+      }, 2000);
+    } else {
+      setFunnyText("");
+    }
+
+    return () => clearInterval(interval);
+  }, [loading, funnyMessages]);
 
   const handleSubmit = async () => {
     setLoading(true);
+    setResult(null);
     try {
       const response = await fetch(
         "https://sentiment-analysis-455b.onrender.com/predict",
@@ -95,6 +137,22 @@ function App() {
               {loading ? "Analyzing Sentiment..." : "Analyze Sentiment"}
             </button>
           </div>
+
+          {loading && (
+            <div style={{ textAlign: "center", marginTop: "20px" }}>
+              <ClipLoader color="#4CAF50" size={50} />
+              <p
+                style={{
+                  marginTop: "10px",
+                  fontSize: "16px",
+                  fontStyle: "italic",
+                  color: "#666",
+                }}
+              >
+                {funnyText}
+              </p>
+            </div>
+          )}
 
           {result && (
             <div
