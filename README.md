@@ -86,7 +86,7 @@ Ensure you have the following installed:
 ## Visit the Live App
 
 You can check out the deployed Sentiment Analysis Web App here:
-[Sentiment Analysis Live](https://sentiment-analysis-455b.onrender.com/)
+[Sentiment Analysis Live](https://sentiment-analysis-app-33hz.onrender.com/)
 
 ## Future Improvements
 
